@@ -1,9 +1,21 @@
 # Local AI Audit
 
-Landing page for Local AI Audit with Stripe checkout links for:
+Static landing site for Local AI Audit.
 
-- AI Visibility Audit - $49
-- Implementation Kit - $159
+## Included pages
+
+- Home page
+- About page
+- Contact page
+- Privacy policy
+- Terms
+- Order intake page
+- Thank-you page
+- Dentist niche page
+- Roofer niche page
+- HVAC niche page
+- robots.txt
+- sitemap.xml
 
 ## Deploy on Vercel
 
@@ -14,4 +26,9 @@ Landing page for Local AI Audit with Stripe checkout links for:
 5. Output directory: leave blank.
 6. Deploy.
 
-The site is a static HTML landing page served from `index.html`.
+## Before launch
+
+- Replace the placeholder domain in `sitemap.xml` and `robots.txt` with your real domain.
+- Point your custom domain in Vercel.
+- Test both Stripe links.
+- Test the email intake flow from `intake.html`.
