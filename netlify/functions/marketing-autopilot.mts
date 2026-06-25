@@ -66,7 +66,7 @@ function thisWeekCampaign() {
 
 function campaignText(campaign: Campaign) {
   return [
-    "Weekly Local AI Audit marketing pack",
+    "Weekly Fix My Site Kit marketing pack",
     "",
     `Audience: ${campaign.audience}`,
     `Pain point: ${campaign.painPoint}`,
@@ -88,7 +88,7 @@ function campaignText(campaign: Campaign) {
 
 function campaignHtml(campaign: Campaign) {
   return `
-    <h2>Weekly Local AI Audit marketing pack</h2>
+    <h2>Weekly Fix My Site Kit marketing pack</h2>
     <p><strong>Audience:</strong> ${campaign.audience}</p>
     <p><strong>Pain point:</strong> ${campaign.painPoint}</p>
     <p><strong>Product to promote:</strong> ${campaign.product}</p>
@@ -114,7 +114,7 @@ async function sendOwnerEmail(campaign: Campaign) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: process.env.FROM_EMAIL || "orders@localaiaudit.com",
+      from: process.env.FROM_EMAIL || "orders@fixmysitekit.com",
       to: [ownerEmail],
       subject: `Weekly marketing pack: ${campaign.audience}`,
       html: campaignHtml(campaign),

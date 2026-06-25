@@ -435,7 +435,7 @@ function adminHtml(order: typeof orders.$inferSelect) {
   const plan = getFixPlan(order);
 
   return `
-    <h2>New Local AI Audit Order</h2>
+    <h2>New Fix My Site Kit Order</h2>
     <p><strong>Order ID:</strong> ${safe.orderNumber}</p>
     <p><strong>Status:</strong> ${safe.status}</p>
     <p><strong>Product:</strong> ${safe.productLabel}</p>
@@ -534,7 +534,7 @@ async function sendEmail(message: { to: string[]; replyTo?: string; subject: str
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: process.env.FROM_EMAIL || "orders@localaiaudit.com",
+      from: process.env.FROM_EMAIL || "orders@fixmysitekit.com",
       to: message.to,
       reply_to: message.replyTo,
       subject: message.subject,

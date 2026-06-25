@@ -1,6 +1,6 @@
-# Local AI Audit
+# Fix My Site Kit
 
-Static landing site for Local AI Audit with a Netlify-powered intake backend, persistent order storage, and automated email notifications.
+Static landing site for Fix My Site Kit with a Netlify-powered intake backend, persistent order storage, and automated email notifications.
 
 ## Included pages
 
@@ -40,7 +40,7 @@ Netlify Database is configured through `@netlify/database` and Drizzle. The sche
 ## Suggested environment variables
 
 - `RESEND_API_KEY` = your Resend API key
-- `FROM_EMAIL` = a verified sender on your domain, such as `orders@yourdomain.com`
+- `FROM_EMAIL` = a verified sender on your domain, such as `orders@fixmysitekit.com`
 - `TO_EMAIL` = `Hudsonhotshotsmoving@yahoo.com`
 - `ADMIN_API_TOKEN` = a private bearer token for reading and updating orders through the admin API
 - `IMPLEMENTATION_KIT_URL` = optional download URL for instant Implementation Kit fulfillment
