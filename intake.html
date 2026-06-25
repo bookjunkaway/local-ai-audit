@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Order Intake | Local AI Audit</title>
   <meta name="description" content="Submit your business details after buying an AI Visibility Audit or Implementation Kit." />
-  <style>body{font-family:Inter,Arial,sans-serif;max-width:860px;margin:0 auto;padding:40px 20px;line-height:1.7;color:#1f2937}label{display:block;font-weight:600;margin-top:16px}input,textarea,select{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}button{margin-top:20px;padding:12px 18px;background:#4f46e5;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer}.note{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:16px;margin:18px 0}.status{margin-top:16px;padding:12px 14px;border-radius:10px;display:none}.status.ok{display:block;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}.status.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}</style>
+  <style>body{font-family:ui-sans-serif,system-ui,sans-serif;max-width:860px;margin:0 auto;padding:40px 20px;line-height:1.7;color:#1f2937;background:#fffaf0}h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.2rem,7vw,4rem);line-height:1;margin-bottom:10px}label{display:block;font-weight:700;margin-top:16px}input,textarea,select{width:100%;padding:12px;border:1px solid #d4c8b4;border-radius:8px;margin-top:6px;background:#fffdf7}button{margin-top:20px;padding:12px 18px;background:#c0572f;color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer}button:disabled{opacity:.7;cursor:not-allowed}.note{background:#f4efe5;border:1px solid #dfd2bd;border-radius:8px;padding:16px;margin:18px 0}.status{margin-top:16px;padding:12px 14px;border-radius:8px;display:none}.status.ok{display:block;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}.status.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.hint{color:#5f6659;font-size:.95rem;margin-top:6px}</style>
 </head>
 <body>
   <h1>Order Intake</h1>
@@ -14,11 +14,16 @@
     <p><strong>Order email:</strong> <a href="mailto:Hudsonhotshotsmoving@yahoo.com">Hudsonhotshotsmoving@yahoo.com</a></p>
   </div>
   <form id="intakeForm">
-    <label>Which product did you buy?
+    <label>Which product did you buy or want to start?
       <select id="product" required>
-        <option value="AI Visibility Audit - $49">AI Visibility Audit - $49</option>
-        <option value="Implementation Kit - $159">Implementation Kit - $159</option>
+        <option value="ai-visibility-audit">AI Visibility Audit - $49</option>
+        <option value="implementation-kit">Implementation Kit - $159</option>
+        <option value="local-ai-visibility-fix-kit">Local AI Visibility Fix Kit</option>
+        <option value="homepage-rewrite-kit">Homepage Rewrite Kit</option>
+        <option value="faq-schema-kit">FAQ + Schema Kit</option>
+        <option value="google-business-kit">Google Business Profile Fix Kit</option>
       </select>
+      <div class="hint">If you came from a product link, this field is selected automatically.</div>
     </label>
     <label>Business name<input id="business" type="text" required /></label>
     <label>Website URL<input id="website" type="url" required /></label>
@@ -51,6 +56,11 @@
     const form = document.getElementById('intakeForm');
     const statusBox = document.getElementById('status');
     const submitBtn = document.getElementById('submitBtn');
+    const productSelect = document.getElementById('product');
+    const requestedProduct = new URLSearchParams(window.location.search).get('product');
+    if (requestedProduct && [...productSelect.options].some((option) => option.value === requestedProduct)) {
+      productSelect.value = requestedProduct;
+    }
 
     form.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -83,7 +93,11 @@
         if (!resp.ok) {
           throw new Error(data.error || 'Submission failed');
         }
-        window.location.href = '/thank-you.html';
+        const params = new URLSearchParams();
+        if (data.orderId) {
+          params.set('order', data.orderId);
+        }
+        window.location.href = `/thank-you.html${params.toString() ? `?${params.toString()}` : ''}`;
       } catch (err) {
         statusBox.textContent = 'There was a problem sending your details. Please email Hudsonhotshotsmoving@yahoo.com directly.';
         statusBox.className = 'status err';
