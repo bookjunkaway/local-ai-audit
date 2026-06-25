@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Order Intake | Local AI Audit</title>
   <meta name="description" content="Submit your business details after buying an AI Visibility Audit or Implementation Kit." />
-  <style>body{font-family:Inter,Arial,sans-serif;max-width:860px;margin:0 auto;padding:40px 20px;line-height:1.7;color:#1f2937}label{display:block;font-weight:600;margin-top:16px}input,textarea,select{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}button{margin-top:20px;padding:12px 18px;background:#4f46e5;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer}.note{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:16px;margin:18px 0}</style>
+  <style>body{font-family:Inter,Arial,sans-serif;max-width:860px;margin:0 auto;padding:40px 20px;line-height:1.7;color:#1f2937}label{display:block;font-weight:600;margin-top:16px}input,textarea,select{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;margin-top:6px}button{margin-top:20px;padding:12px 18px;background:#4f46e5;color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer}.note{background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:16px;margin:18px 0}.status{margin-top:16px;padding:12px 14px;border-radius:10px;display:none}.status.ok{display:block;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}.status.err{display:block;background:#fef2f2;border:1px solid #fecaca;color:#991b1b}</style>
 </head>
 <body>
   <h1>Order Intake</h1>
-  <p>Submit your business details here after purchase. This form opens your email with the details filled in so your order can be processed quickly.</p>
+  <p>Submit your business details here after purchase so your order can be processed quickly.</p>
   <div class="note">
     <p><strong>Order email:</strong> <a href="mailto:Hudsonhotshotsmoving@yahoo.com">Hudsonhotshotsmoving@yahoo.com</a></p>
   </div>
@@ -43,43 +43,54 @@
     <label>2 competitors if known<textarea id="competitors" rows="4"></textarea></label>
     <label>Key pages you want improved first<textarea id="pages" rows="4"></textarea></label>
     <label>Anything else we should know?<textarea id="notes" rows="5"></textarea></label>
-    <button type="submit">Send intake details</button>
+    <button id="submitBtn" type="submit">Send intake details</button>
+    <div id="status" class="status"></div>
   </form>
   <p><a href="/index.html">Back to home</a></p>
   <script>
-    document.getElementById('intakeForm').addEventListener('submit', function (e) {
+    const form = document.getElementById('intakeForm');
+    const statusBox = document.getElementById('status');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', async function (e) {
       e.preventDefault();
-      const product = document.getElementById('product').value;
-      const business = document.getElementById('business').value;
-      const website = document.getElementById('website').value;
-      const city = document.getElementById('city').value;
-      const service = document.getElementById('service').value;
-      const platform = document.getElementById('platform').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const competitors = document.getElementById('competitors').value;
-      const pages = document.getElementById('pages').value;
-      const notes = document.getElementById('notes').value;
+      statusBox.className = 'status';
+      statusBox.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
 
-      const subject = encodeURIComponent('New Local AI Audit Order - ' + business);
-      const body = encodeURIComponent(
-        'Product: ' + product + '\n\n' +
-        'Business Name: ' + business + '\n' +
-        'Website URL: ' + website + '\n' +
-        'City: ' + city + '\n' +
-        'Main Service: ' + service + '\n' +
-        'Website Platform: ' + platform + '\n' +
-        'Email: ' + email + '\n' +
-        'Phone: ' + phone + '\n\n' +
-        'Competitors: ' + competitors + '\n\n' +
-        'Key Pages To Improve First: ' + pages + '\n\n' +
-        'Additional Notes: ' + notes
-      );
+      const payload = {
+        product: document.getElementById('product').value,
+        business: document.getElementById('business').value,
+        website: document.getElementById('website').value,
+        city: document.getElementById('city').value,
+        service: document.getElementById('service').value,
+        platform: document.getElementById('platform').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        competitors: document.getElementById('competitors').value,
+        pages: document.getElementById('pages').value,
+        notes: document.getElementById('notes').value,
+      };
 
-      window.location.href = 'mailto:Hudsonhotshotsmoving@yahoo.com?subject=' + subject + '&body=' + body;
-      setTimeout(function () {
+      try {
+        const resp = await fetch('/api/intake', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+          throw new Error(data.error || 'Submission failed');
+        }
         window.location.href = '/thank-you.html';
-      }, 800);
+      } catch (err) {
+        statusBox.textContent = 'There was a problem sending your details. Please email Hudsonhotshotsmoving@yahoo.com directly.';
+        statusBox.className = 'status err';
+        statusBox.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send intake details';
+      }
     });
   </script>
 </body>
