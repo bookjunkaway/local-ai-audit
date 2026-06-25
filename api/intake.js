@@ -72,7 +72,7 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.FROM_EMAIL || 'orders@localaiaudit.com';
+  const fromEmail = process.env.FROM_EMAIL || 'orders@fixmysitekit.com';
   const toEmail = process.env.TO_EMAIL || 'Hudsonhotshotsmoving@yahoo.com';
 
   if (!apiKey) {
